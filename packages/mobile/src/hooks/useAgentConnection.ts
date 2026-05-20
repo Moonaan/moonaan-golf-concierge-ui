@@ -44,7 +44,7 @@ export function useAgentConnection() {
       if (event.type === 'textOutput') {
         setMessages((prev) => [
           ...prev,
-          { id: `agent_${Date.now()}`, role: 'agent', text: (event as any).data?.content || '', timestamp: new Date() },
+          { id: `agent_${Date.now()}`, role: 'agent', text: (event as { data?: { content?: string } }).data?.content || '', timestamp: new Date() },
         ]);
       }
     });

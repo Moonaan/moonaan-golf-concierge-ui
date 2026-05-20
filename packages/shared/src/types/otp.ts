@@ -1,4 +1,4 @@
-import { ISODateTimeString, PhoneNumber } from './common';
+import { ISODateTimeString } from './common';
 
 export interface OtpRecord {
   code: string;

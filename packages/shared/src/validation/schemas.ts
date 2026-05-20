@@ -4,7 +4,7 @@
 // type inference. Zero external dependencies (no zod needed).
 // ============================================================
 
-import { isValidEmail, isValidPhone, isValidDate, isValidTime, isValidUUID, isValidPartySize } from '../utils/validation';
+import { isValidEmail, isValidPhone, isValidDate, isValidTime, isValidUUID } from '../utils/validation';
 import { CartOption, HoleCount, PaceOfPlay, MemberTier } from '../types/common';
 import { MissouriRegion } from '../types/course';
 

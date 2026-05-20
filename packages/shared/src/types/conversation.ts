@@ -6,8 +6,8 @@
 // ============================================================
 
 import {
-  UUID, ISODateString, ISODateTimeString, PhoneNumber,
-  PaceOfPlay, CartOption, HoleCount, MemberTier, GeoLocation,
+  UUID, ISODateString, ISODateTimeString,
+  PaceOfPlay, CartOption, HoleCount, GeoLocation,
 } from './common';
 import { Booking, TeeTimeSlot, BookingPlayer } from './booking';
 import { Member, MemberPreferences, PlayerRelationship } from './member';

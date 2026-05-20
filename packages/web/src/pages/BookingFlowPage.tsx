@@ -100,8 +100,8 @@ export function BookingFlowPage() {
       });
       setConfirmedBooking(booking);
       setStep(4);
-    } catch (err: any) {
-      setError(err.message || 'Booking failed. Please try again.');
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : '') || 'Booking failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

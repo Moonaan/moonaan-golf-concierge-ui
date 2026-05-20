@@ -40,7 +40,7 @@ export function useAgentConnection() {
       if (event.type === 'textOutput') {
         setMessages((prev) => [
           ...prev,
-          { role: 'agent', text: (event as any).data?.content || '', timestamp: new Date() },
+          { role: 'agent', text: (event as { data?: { content?: string } }).data?.content || '', timestamp: new Date() },
         ]);
       }
     });

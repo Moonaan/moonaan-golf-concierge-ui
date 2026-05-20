@@ -41,8 +41,8 @@ export function NotFoundPage() {
           Looks like your ball went OB
         </h1>
         <p className="text-gray-500 mb-8 max-w-md mx-auto">
-          The page you're looking for has gone out of bounds. 
-          Let's get you back on the fairway.
+          The page you&apos;re looking for has gone out of bounds.
+          Let&apos;s get you back on the fairway.
         </p>
 
         {/* Search */}

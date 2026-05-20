@@ -2,7 +2,7 @@
 // Course Types — AI Golf Concierge
 // ============================================================
 
-import { UUID, ISODateString, GeoLocation, PriceRange, TimeRange } from './common';
+import { ISODateString, GeoLocation, PriceRange, TimeRange } from './common';
 
 export interface Course {
   courseId: string;

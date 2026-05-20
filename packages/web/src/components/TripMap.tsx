@@ -7,9 +7,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 
-// Declare google maps types loosely for demo mode
-declare const google: any;
-
 // ── Types ───────────────────────────────────────────────────
 
 interface RouteWaypoint {
@@ -280,7 +277,7 @@ export function TripMap({
       });
       map.fitBounds(mapBounds, 50);
     }
-  }, [waypoints, legs, pois, bounds, isLoaded, demoMode]);
+  }, [waypoints, legs, pois, bounds, isLoaded, demoMode, onWaypointClick, onPoiClick]);
 
   // Demo mode fallback
   if (demoMode || loadError) {

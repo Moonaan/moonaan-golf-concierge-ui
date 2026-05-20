@@ -290,7 +290,7 @@ export function LoginPage() {
               </form>
 
               <p className="mt-8 text-center text-sm text-gray-500">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <button
                   onClick={() => switchMode('signup')}
                   className="text-golf-green-600 hover:text-golf-green-700 font-semibold"
@@ -439,7 +439,7 @@ export function LoginPage() {
                 Reset Password
               </h1>
               <p className="text-gray-500 mb-8">
-                Enter your email and we'll send you a reset code
+                Enter your email and we&apos;ll send you a reset code
               </p>
 
               {forgotSuccess ? (

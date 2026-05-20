@@ -135,11 +135,11 @@ export function useAuthProvider(): AuthContextType {
       } else if (result.nextStep?.signInStep === 'CONFIRM_SIGN_UP') {
         throw new Error('Please verify your email first.');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: err.message || 'Login failed',
+        error: (err instanceof Error ? err.message : '') || 'Login failed',
       }));
       throw err;
     }
@@ -176,11 +176,11 @@ export function useAuthProvider(): AuthContextType {
         return {
           needsConfirmation: result.nextStep?.signUpStep === 'CONFIRM_SIGN_UP',
         };
-      } catch (err: any) {
+      } catch (err: unknown) {
         setState((prev) => ({
           ...prev,
           isLoading: false,
-          error: err.message || 'Registration failed',
+          error: (err instanceof Error ? err.message : '') || 'Registration failed',
         }));
         throw err;
       }
@@ -196,11 +196,11 @@ export function useAuthProvider(): AuthContextType {
         const { confirmSignUp } = await import('aws-amplify/auth');
         await confirmSignUp({ username: email, confirmationCode: code });
         setState((prev) => ({ ...prev, isLoading: false }));
-      } catch (err: any) {
+      } catch (err: unknown) {
         setState((prev) => ({
           ...prev,
           isLoading: false,
-          error: err.message || 'Confirmation failed',
+          error: (err instanceof Error ? err.message : '') || 'Confirmation failed',
         }));
         throw err;
       }
@@ -227,8 +227,8 @@ export function useAuthProvider(): AuthContextType {
         isAuthenticated: false,
         error: null,
       });
-    } catch (err: any) {
-      setError(err.message || 'Logout failed');
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : '') || 'Logout failed');
     }
   }, []);
 
@@ -239,11 +239,11 @@ export function useAuthProvider(): AuthContextType {
       const { resetPassword } = await import('aws-amplify/auth');
       await resetPassword({ username: email });
       setState((prev) => ({ ...prev, isLoading: false }));
-    } catch (err: any) {
+    } catch (err: unknown) {
       setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: err.message || 'Password reset failed',
+        error: (err instanceof Error ? err.message : '') || 'Password reset failed',
       }));
       throw err;
     }
@@ -261,11 +261,11 @@ export function useAuthProvider(): AuthContextType {
           newPassword,
         });
         setState((prev) => ({ ...prev, isLoading: false }));
-      } catch (err: any) {
+      } catch (err: unknown) {
         setState((prev) => ({
           ...prev,
           isLoading: false,
-          error: err.message || 'Password reset confirmation failed',
+          error: (err instanceof Error ? err.message : '') || 'Password reset confirmation failed',
         }));
         throw err;
       }

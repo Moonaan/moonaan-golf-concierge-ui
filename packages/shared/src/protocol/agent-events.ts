@@ -80,12 +80,12 @@ export interface TextOutputEvent {
 export interface ToolUseEvent {
   type: 'toolUse';
   toolName: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ToolResultEvent {
   type: 'toolResult';
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface AudioReadyEvent {
@@ -98,15 +98,15 @@ export interface SessionClosedEvent {
 
 export interface ContentStartEvent {
   type: 'contentStart';
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ContentEndEvent {
   type: 'contentEnd';
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface AgentErrorEvent {
   type: 'error';
-  [key: string]: any;
+  [key: string]: unknown;
 }

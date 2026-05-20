@@ -31,7 +31,9 @@ export class AudioPlayer {
       try {
         await this.currentSound.stopAsync();
         await this.currentSound.unloadAsync();
-      } catch {}
+      } catch {
+        // best-effort cleanup; ignore stop/unload errors
+      }
       this.currentSound = null;
     }
     this.setSpeaking(false);
