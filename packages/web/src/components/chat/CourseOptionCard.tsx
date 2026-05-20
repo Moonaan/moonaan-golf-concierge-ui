@@ -3,10 +3,10 @@
 // ============================================================
 
 import { Star, ShoppingCart, Footprints } from 'lucide-react';
-import type { CourseOption } from '@/types/chat';
+import type { CourseOptionCard as CourseOptionCardType } from '@golf-concierge/shared';
 
 interface CourseOptionCardProps {
-  course: CourseOption;
+  course: CourseOptionCardType;
   onBook: () => void;
 }
 
@@ -17,7 +17,7 @@ export function CourseOptionCard({ course, onBook }: CourseOptionCardProps) {
       {course.imageUrl ? (
         <img
           src={course.imageUrl}
-          alt={course.name}
+          alt={course.courseName}
           className="w-full h-28 object-cover"
         />
       ) : (
@@ -30,11 +30,11 @@ export function CourseOptionCard({ course, onBook }: CourseOptionCardProps) {
         {/* Course name & rating */}
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-gray-900 text-[15px] leading-tight">
-            {course.name}
+            {course.courseName}
           </h3>
           <div className="flex items-center gap-0.5 flex-shrink-0">
             <Star className="w-3.5 h-3.5 fill-golf-gold-400 text-golf-gold-400" />
-            <span className="text-xs font-medium text-gray-600">{course.rating}</span>
+            <span className="text-xs font-medium text-gray-600">{course.userRating ?? 0}</span>
           </div>
         </div>
 
@@ -47,9 +47,13 @@ export function CourseOptionCard({ course, onBook }: CourseOptionCardProps) {
 
         {/* Time, date, cart info */}
         <div className="flex items-center gap-3 mt-2 text-sm text-gray-600">
-          <span className="font-medium">{course.time}</span>
-          <span className="text-gray-300">|</span>
-          <span>{course.date}</span>
+          <span className="font-medium">{course.teeTime}</span>
+          {course.date && (
+            <>
+              <span className="text-gray-300">|</span>
+              <span>{course.date}</span>
+            </>
+          )}
           <span className="text-gray-300">|</span>
           <span className="flex items-center gap-1">
             {course.cartIncluded ? (

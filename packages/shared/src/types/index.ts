@@ -8,3 +8,4 @@ export * from './common';
 export * from './conversation';
 export * from './maps';
 export * from './otp';
+export * from './chat';

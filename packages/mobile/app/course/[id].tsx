@@ -14,17 +14,21 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useChat } from '../../hooks/useChat';
 import { colors, spacing, borderRadius, fontSize } from '../../lib/theme';
-import type { Course } from '../../lib/types';
+import type { Course } from '@golf-concierge/shared';
 
+// Keys map to CourseAmenity enum string values.
 const AMENITY_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
-  'Driving Range': 'golf-outline',
-  'Pro Shop': 'bag-handle-outline',
-  Restaurant: 'restaurant-outline',
-  Bar: 'wine-outline',
-  'Practice Green': 'flag-outline',
-  Lodging: 'bed-outline',
-  Cart: 'car-outline',
-  Lessons: 'school-outline',
+  DRIVING_RANGE: 'golf-outline',
+  PUTTING_GREEN: 'flag-outline',
+  PRO_SHOP: 'bag-handle-outline',
+  RESTAURANT: 'restaurant-outline',
+  BAR: 'wine-outline',
+  LOCKER_ROOM: 'lock-closed-outline',
+  LESSONS: 'school-outline',
+  CART_GPS: 'navigate-outline',
+  PRACTICE_BUNKER: 'golf-outline',
+  CLUB_RENTAL: 'cart-outline',
+  LODGING: 'bed-outline',
 };
 
 export default function CourseDetailScreen() {
@@ -66,6 +70,10 @@ export default function CourseDetailScreen() {
     );
   }
 
+  const addressStr = course.address
+    ? `${course.address.street}, ${course.address.city}, ${course.address.state} ${course.address.zip}`
+    : '';
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -93,7 +101,7 @@ export default function CourseDetailScreen() {
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
-            <Text style={styles.statValue}>{course.slope}</Text>
+            <Text style={styles.statValue}>{course.slopeRating}</Text>
             <Text style={styles.statLabel}>Slope</Text>
           </View>
           <View style={styles.statDivider} />
@@ -103,7 +111,7 @@ export default function CourseDetailScreen() {
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
-            <Text style={styles.statValue}>{course.yardage.toLocaleString()}</Text>
+            <Text style={styles.statValue}>{course.yardage.mens.toLocaleString()}</Text>
             <Text style={styles.statLabel}>Yards</Text>
           </View>
         </View>
@@ -139,7 +147,7 @@ export default function CourseDetailScreen() {
           <Text style={styles.sectionTitle}>Details</Text>
           <View style={styles.detailRow}>
             <Ionicons name="cash-outline" size={18} color={colors.textSecondary} />
-            <Text style={styles.detailText}>{course.priceRange}</Text>
+            <Text style={styles.detailText}>{course.priceDisplay ?? ''}</Text>
           </View>
           <Pressable onPress={handleCall} style={styles.detailRow}>
             <Ionicons name="call-outline" size={18} color={colors.accent} />
@@ -147,7 +155,7 @@ export default function CourseDetailScreen() {
           </Pressable>
           <View style={styles.detailRow}>
             <Ionicons name="location-outline" size={18} color={colors.textSecondary} />
-            <Text style={styles.detailText}>{course.address}</Text>
+            <Text style={styles.detailText}>{addressStr}</Text>
           </View>
         </View>
 

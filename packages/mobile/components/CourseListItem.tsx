@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, borderRadius, fontSize } from '../lib/theme';
-import type { Course } from '../lib/types';
+import type { Course } from '@golf-concierge/shared';
 
 interface Props {
   course: Course;
@@ -27,7 +27,7 @@ export default function CourseListItem({ course }: Props) {
 
   return (
     <Pressable
-      onPress={() => router.push(`/course/${course.id}`)}
+      onPress={() => router.push(`/course/${course.courseId}`)}
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
     >
       <View style={styles.content}>
@@ -41,8 +41,8 @@ export default function CourseListItem({ course }: Props) {
         </View>
 
         <View style={styles.info}>
-          <View style={styles.stars}>{renderStars(course.rating)}</View>
-          <Text style={styles.price}>{course.priceRange}</Text>
+          <View style={styles.stars}>{renderStars(course.userRating ?? 0)}</View>
+          <Text style={styles.price}>{course.priceDisplay ?? ''}</Text>
         </View>
 
         {course.nextAvailableTeeTime && (

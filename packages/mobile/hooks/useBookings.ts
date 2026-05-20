@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Booking } from '../lib/types';
+import { BookingStatus } from '@golf-concierge/shared';
+import type { Booking } from '@golf-concierge/shared';
 
 const CACHE_KEY = 'bookings_cache';
 
@@ -57,7 +58,7 @@ export function useBookings(): BookingsState {
   const cancelBooking = useCallback(async (bookingId: string) => {
     // Optimistic update
     setUpcoming((prev) =>
-      prev.map((b) => (b.id === bookingId ? { ...b, status: 'cancelled' as const } : b))
+      prev.map((b) => (b.bookingId === bookingId ? { ...b, status: BookingStatus.CANCELLED } : b))
     );
 
     try {

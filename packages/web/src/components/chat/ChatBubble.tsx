@@ -3,7 +3,7 @@
 // ============================================================
 
 import { useState } from 'react';
-import type { ChatMessage } from '@/types/chat';
+import type { ChatMessage } from '@golf-concierge/shared';
 import { CourseOptionCard } from './CourseOptionCard';
 import { TripItineraryCard } from './TripItineraryCard';
 import { BookingConfirmationCard } from './BookingConfirmationCard';
@@ -99,96 +99,103 @@ export function ChatBubble({ message, onAction }: ChatBubbleProps) {
           </div>
         )}
 
-        {/* Rich content */}
-        {message.richContent && (
-          <div className="mt-2 w-full">
-            {message.richContent.type === 'course_options' && (
-              <div className="space-y-2">
-                {message.richContent.courses.map((course) => (
-                  <CourseOptionCard
-                    key={course.courseId}
-                    course={course}
-                    onBook={() => onAction?.('book_course', course)}
-                  />
-                ))}
-              </div>
-            )}
+        {/* Rich content cards */}
+        {message.cards && message.cards.length > 0 && (
+          <div className="mt-2 w-full space-y-2">
+            {message.cards.map((card, i) => {
+              switch (card.type) {
+                case 'course_option':
+                  return (
+                    <CourseOptionCard
+                      key={`${card.courseId}-${i}`}
+                      course={card}
+                      onBook={() => onAction?.('book_course', card)}
+                    />
+                  );
 
-            {message.richContent.type === 'trip_itinerary' && (
-              <TripItineraryCard
-                trip={message.richContent.trip}
-                onBookAll={() => onAction?.('book_trip', message.richContent)}
-                onModify={() => onAction?.('modify_trip', message.richContent)}
-              />
-            )}
+                case 'trip_itinerary':
+                  return (
+                    <TripItineraryCard
+                      key={`trip-${i}`}
+                      trip={card}
+                      onBookAll={() => onAction?.('book_trip', card)}
+                      onModify={() => onAction?.('modify_trip', card)}
+                    />
+                  );
 
-            {message.richContent.type === 'booking_confirmation' && (
-              <BookingConfirmationCard booking={message.richContent.booking} />
-            )}
+                case 'booking_confirmation':
+                  return <BookingConfirmationCard key={`booking-${i}`} booking={card} />;
 
-            {message.richContent.type === 'hotel_options' && (
-              <div className="space-y-2">
-                {message.richContent.hotels.map((hotel) => (
-                  <HotelOptionCard
-                    key={hotel.hotelId}
-                    hotel={hotel}
-                    onBook={() => onAction?.('book_hotel', hotel)}
-                  />
-                ))}
-              </div>
-            )}
+                case 'hotel_option':
+                  return (
+                    <HotelOptionCard
+                      key={`${card.hotelId}-${i}`}
+                      hotel={card}
+                      onBook={() => onAction?.('book_hotel', card)}
+                    />
+                  );
 
-            {message.richContent.type === 'map_location' && (
-              <div className="rounded-xl overflow-hidden border border-white/10">
-                <div className="bg-golf-green-800 h-40 flex items-center justify-center text-white/60 text-sm">
-                  <div className="text-center">
-                    <span className="text-2xl block mb-1">📍</span>
-                    {message.richContent.name}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {message.richContent.type === 'weather_alert' && (
-              <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xl">
-                    {message.richContent.forecast.golfability >= 70 ? '☀️' : message.richContent.forecast.golfability >= 40 ? '⛅' : '🌧️'}
-                  </span>
-                  <span className="font-semibold text-gray-900">{message.richContent.forecast.location}</span>
-                </div>
-                <div className="text-sm text-gray-600 space-y-1">
-                  <p>High {message.richContent.forecast.high}° / Low {message.richContent.forecast.low}°</p>
-                  <p>Wind: {message.richContent.forecast.windSpeed} mph</p>
-                  <p>Rain: {message.richContent.forecast.precipitation}%</p>
-                  <div className="mt-2 flex items-center gap-2">
-                    <span className="text-xs font-medium text-gray-500">Golf Score:</span>
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
-                      <div
-                        className="bg-golf-green-500 h-2 rounded-full transition-all"
-                        style={{ width: `${message.richContent.forecast.golfability}%` }}
-                      />
+                case 'map_location':
+                  return (
+                    <div key={`map-${i}`} className="rounded-xl overflow-hidden border border-white/10">
+                      <div className="bg-golf-green-800 h-40 flex items-center justify-center text-white/60 text-sm">
+                        <div className="text-center">
+                          <span className="text-2xl block mb-1">📍</span>
+                          {card.name}
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-xs font-bold text-golf-green-700">
-                      {message.richContent.forecast.golfability}/100
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
+                  );
 
-            {message.richContent.type === 'payment_request' && (
-              <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                <div className="text-center">
-                  <p className="text-sm text-gray-500 mb-1">Amount Due</p>
-                  <p className="text-3xl font-bold text-gray-900">${message.richContent.amount}</p>
-                  <p className="text-sm text-gray-500 mt-1">{message.richContent.description}</p>
-                  <button className="btn-primary mt-3 w-full text-sm py-2.5">
-                    Pay Now
-                  </button>
-                </div>
-              </div>
-            )}
+                case 'weather_alert': {
+                  const golfability = card.golfability ?? 0;
+                  return (
+                    <div key={`weather-${i}`} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xl">
+                          {golfability >= 70 ? '☀️' : golfability >= 40 ? '⛅' : '🌧️'}
+                        </span>
+                        <span className="font-semibold text-gray-900">{card.location}</span>
+                      </div>
+                      <div className="text-sm text-gray-600 space-y-1">
+                        <p>High {card.high}° / Low {card.low}°</p>
+                        <p>Wind: {card.windSpeed} mph</p>
+                        <p>Rain: {card.precipitation}%</p>
+                        <div className="mt-2 flex items-center gap-2">
+                          <span className="text-xs font-medium text-gray-500">Golf Score:</span>
+                          <div className="flex-1 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-golf-green-500 h-2 rounded-full transition-all"
+                              style={{ width: `${golfability}%` }}
+                            />
+                          </div>
+                          <span className="text-xs font-bold text-golf-green-700">
+                            {golfability}/100
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                case 'payment_request':
+                  return (
+                    <div key={`payment-${i}`} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                      <div className="text-center">
+                        <p className="text-sm text-gray-500 mb-1">Amount Due</p>
+                        <p className="text-3xl font-bold text-gray-900">${card.amount}</p>
+                        <p className="text-sm text-gray-500 mt-1">{card.description}</p>
+                        <button className="btn-primary mt-3 w-full text-sm py-2.5">
+                          Pay Now
+                        </button>
+                      </div>
+                    </div>
+                  );
+
+                default:
+                  return null;
+              }
+            })}
           </div>
         )}
 

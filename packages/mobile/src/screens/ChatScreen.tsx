@@ -11,7 +11,8 @@ import {
   Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAgentConnection, ChatMessage } from '../hooks/useAgentConnection';
+import { useAgentConnection } from '../hooks/useAgentConnection';
+import type { AgentTranscriptMessage } from '@golf-concierge/shared';
 import ChatBubble from '../components/ChatBubble';
 import VoiceButton from '../components/VoiceButton';
 import PaymentSheet from '../components/PaymentSheet';
@@ -69,8 +70,8 @@ export default function ChatScreen() {
         <FlatList
           ref={flatListRef}
           data={messages}
-          keyExtractor={(item: ChatMessage) => item.id}
-          renderItem={({ item }: ListRenderItemInfo<ChatMessage>) => <ChatBubble message={item} />}
+          keyExtractor={(item: AgentTranscriptMessage) => item.id}
+          renderItem={({ item }: ListRenderItemInfo<AgentTranscriptMessage>) => <ChatBubble message={item} />}
           contentContainerStyle={styles.messageList}
           showsVerticalScrollIndicator={false}
           onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}

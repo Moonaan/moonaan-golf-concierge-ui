@@ -4,7 +4,7 @@ import Animated, { FadeIn, FadeInDown, Layout } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, borderRadius, fontSize } from '../../lib/theme';
-import type { TripItineraryCard as TripData } from '../../lib/types';
+import type { TripItineraryCard as TripData } from '@golf-concierge/shared';
 
 interface Props {
   data: TripData;
@@ -33,7 +33,7 @@ export default function TripItineraryCard({ data, onBook }: Props) {
     <Animated.View entering={FadeIn.duration(300)} style={styles.card}>
       <View style={styles.header}>
         <Ionicons name="map-outline" size={20} color={colors.accent} />
-        <Text style={styles.title}>{data.tripName}</Text>
+        <Text style={styles.title}>{data.tripName ?? 'Trip Plan'}</Text>
       </View>
 
       {data.days.map((day, index) => (
@@ -58,10 +58,10 @@ export default function TripItineraryCard({ data, onBook }: Props) {
                 <Ionicons name="time-outline" size={14} color={colors.textMuted} />
                 <Text style={styles.detailText}>Tee time: {day.teeTime}</Text>
               </View>
-              {day.driveTime && (
+              {day.driveTimeFromHotel && (
                 <View style={styles.detailRow}>
                   <Ionicons name="car-outline" size={14} color={colors.textMuted} />
-                  <Text style={styles.detailText}>Drive: {day.driveTime}</Text>
+                  <Text style={styles.detailText}>Drive: {day.driveTimeFromHotel}</Text>
                 </View>
               )}
               <View style={styles.detailRow}>
@@ -70,7 +70,7 @@ export default function TripItineraryCard({ data, onBook }: Props) {
               </View>
               <View style={styles.detailRow}>
                 <Ionicons name="star" size={14} color={colors.accent} />
-                <Text style={styles.detailText}>{day.rating}/5 rating</Text>
+                <Text style={styles.detailText}>{day.userRating ?? 0}/5 rating</Text>
               </View>
             </Animated.View>
           )}
@@ -83,8 +83,11 @@ export default function TripItineraryCard({ data, onBook }: Props) {
           <View style={styles.hotelInfo}>
             <Text style={styles.hotelName}>{data.hotel.name}</Text>
             <Text style={styles.hotelDetail}>
-              ${data.hotel.pricePerNight}/night • {data.hotel.nights} night
-              {data.hotel.nights > 1 ? 's' : ''} • {data.hotel.distanceToCourse} to course
+              ${data.hotel.pricePerNight}/night
+              {data.hotel.nights != null
+                ? ` • ${data.hotel.nights} night${data.hotel.nights > 1 ? 's' : ''}`
+                : ''}{' '}
+              • {data.hotel.distanceToCourse} to course
             </Text>
           </View>
         </View>

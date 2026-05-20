@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { ChatMessage } from '../lib/types';
+import type { ChatMessage } from '@golf-concierge/shared';
 
 const CACHE_KEY = 'chat_messages';
 const MAX_CACHED = 100;

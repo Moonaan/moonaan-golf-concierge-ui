@@ -29,6 +29,9 @@ export interface Course {
   };
   courseRating?: number;
   slopeRating?: number;
+  userRating?: number;           // 0–5 star rating for display
+  priceDisplay?: string;         // formatted price string e.g. "$55–$99"
+  nextAvailableTeeTime?: string; // pre-computed for list views
   amenities: CourseAmenity[];
   operatingHours: {
     [day: string]: TimeRange;

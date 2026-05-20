@@ -3,10 +3,10 @@
 // ============================================================
 
 import { Star, MapPin } from 'lucide-react';
-import type { HotelOption } from '@/types/chat';
+import type { HotelOptionCard as HotelOptionCardType } from '@golf-concierge/shared';
 
 interface HotelOptionCardProps {
-  hotel: HotelOption;
+  hotel: HotelOptionCardType;
   onBook: () => void;
 }
 

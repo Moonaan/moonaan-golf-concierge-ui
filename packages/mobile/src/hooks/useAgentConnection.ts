@@ -1,23 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { AgentConnection, ConnectionState, AgentEvent } from '@golf-concierge/shared';
+import { AgentConnection, ConnectionState, AgentEvent, AgentTranscriptMessage } from '@golf-concierge/shared';
 import { AudioCapture } from '../lib/audio-capture';
 import { AudioPlayer } from '../lib/audio-player';
 
 const AGENT_ENDPOINT = process.env.EXPO_PUBLIC_AGENT_ENDPOINT || 'ws://localhost:8080';
-
-export interface ChatMessage {
-  id: string;
-  role: 'user' | 'agent';
-  text: string;
-  timestamp: Date;
-}
 
 export function useAgentConnection() {
   const connectionRef = useRef<AgentConnection | null>(null);
   const audioCaptureRef = useRef<AudioCapture | null>(null);
   const audioPlayerRef = useRef<AudioPlayer | null>(null);
   const [state, setState] = useState<ConnectionState>('disconnected');
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<AgentTranscriptMessage[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isAudioReady, setIsAudioReady] = useState(false);
