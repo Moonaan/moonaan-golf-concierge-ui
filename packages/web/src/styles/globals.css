@@ -1,0 +1,250 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-sans text-gray-900 bg-white;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-golf-green-500;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg
+           bg-golf-green-700 text-white font-semibold
+           hover:bg-golf-green-600 active:bg-golf-green-800
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-golf-green-500 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg
+           bg-golf-gold-400 text-golf-green-700 font-semibold
+           hover:bg-golf-gold-300 active:bg-golf-gold-500
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-golf-gold-400 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg
+           border-2 border-golf-green-700 text-golf-green-700 font-semibold
+           hover:bg-golf-green-700 hover:text-white
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-golf-green-500 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-md
+           hover:shadow-lg hover:-translate-y-0.5
+           transition-all duration-300 overflow-hidden;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-300
+           focus:border-golf-green-500 focus:ring-2 focus:ring-golf-green-500/20
+           transition-all duration-200 outline-none
+           placeholder:text-gray-400;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-available {
+    @apply badge bg-green-100 text-green-800;
+  }
+
+  .badge-limited {
+    @apply badge bg-yellow-100 text-yellow-800;
+  }
+
+  .badge-full {
+    @apply badge bg-red-100 text-red-800;
+  }
+
+  .section-heading {
+    @apply text-3xl md:text-4xl font-display font-bold text-golf-green-700;
+  }
+
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton-shimmer {
+    @apply bg-gray-200 relative overflow-hidden;
+  }
+
+  .skeleton-shimmer::after {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    );
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Toast notification */
+  .toast-enter {
+    animation: slideUp 0.3s ease-out;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-md;
+  }
+
+  /* Hide scrollbar for horizontal scroll */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Custom Animations ───────────────────────────── */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes bounceSoft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(196, 163, 90, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(196, 163, 90, 0);
+  }
+}
+
+/* Chat animations */
+@keyframes chatIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-chat-in {
+  animation: chatIn 0.3s ease-out both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.25s ease-out both;
+}
+
+/* Animation utility classes */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out both;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounceSoft 1s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Golf-themed gradients */
+.bg-golf-gradient {
+  background: linear-gradient(135deg, #1B4D3E 0%, #2D5A27 50%, #1B4D3E 100%);
+}
+
+.bg-golf-gradient-dark {
+  background: linear-gradient(135deg, #1B4D3E 0%, #0c1f19 100%);
+}
+
+.bg-golf-gold-gradient {
+  background: linear-gradient(135deg, #C4A35A 0%, #eac76e 50%, #C4A35A 100%);
+}
