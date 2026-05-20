@@ -307,7 +307,7 @@ export function MyBookingsPage() {
                     <p className="font-semibold">Within 24-Hour Window</p>
                     <p className="mt-0.5">
                       Your tee time is less than 24 hours away. A cancellation fee may apply
-                      per the course's cancellation policy.
+                      per the course&apos;s cancellation policy.
                     </p>
                   </div>
                 </div>

@@ -40,7 +40,9 @@ export class AudioCapture {
     if (this.recording) {
       try {
         await this.recording.stopAndUnloadAsync();
-      } catch {}
+      } catch {
+        // best-effort cleanup; ignore stop/unload errors
+      }
       this.recording = null;
     }
     await Audio.setAudioModeAsync({ allowsRecordingIOS: false });

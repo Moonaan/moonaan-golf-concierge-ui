@@ -251,7 +251,7 @@ export function HomePage() {
               Zero Friction.
             </h1>
             <p className="mt-6 text-lg md:text-xl text-green-100 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              The AI-powered golf concierge for Missouri's finest courses. Book tee times, plan trips, and play more — all with your voice.
+              The AI-powered golf concierge for Missouri&apos;s finest courses. Book tee times, plan trips, and play more — all with your voice.
             </p>
 
             {/* CTAs */}
@@ -308,7 +308,7 @@ export function HomePage() {
               How It <span className="text-golf-gold-400">Works</span>
             </h2>
             <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
-              Three steps. That's it. No apps to download, no accounts required.
+              Three steps. That&apos;s it. No apps to download, no accounts required.
             </p>
           </div>
 
@@ -436,7 +436,7 @@ export function HomePage() {
               Join the <span className="text-golf-gold-400">Trail</span>
             </h2>
             <p className="mt-4 text-gray-500 max-w-xl mx-auto">
-              From casual golfers to die-hard trail runners — there's a plan for every game.
+              From casual golfers to die-hard trail runners — there&apos;s a plan for every game.
             </p>
           </div>
 
@@ -520,7 +520,7 @@ export function HomePage() {
                   }`}
                 >
                   <blockquote className="text-xl md:text-2xl font-display text-gray-700 italic">
-                    "{t.quote}"
+                    &quot;{t.quote}&quot;
                   </blockquote>
                   <p className="mt-4 text-gray-500 font-medium">
                     — {t.name}, <span className="text-golf-green-600">{t.title}</span>

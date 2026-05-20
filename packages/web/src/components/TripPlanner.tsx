@@ -348,7 +348,7 @@ export function TripPlanner() {
         {currentStep === 'who' && (
           <div>
             <h2 className="text-2xl font-display font-bold text-golf-green-700 mb-2">
-              Who's playing?
+              Who&apos;s playing?
             </h2>
             <p className="text-gray-500 mb-6">Add your party details</p>
 
@@ -425,7 +425,7 @@ export function TripPlanner() {
               <Plane className={`w-5 h-5 ${trip.includeFlights ? 'text-golf-green-700' : 'text-gray-400'}`} />
               <div>
                 <p className="font-semibold text-gray-900">I need to fly in</p>
-                <p className="text-sm text-gray-500">We'll help coordinate arrival with tee times</p>
+                <p className="text-sm text-gray-500">We&apos;ll help coordinate arrival with tee times</p>
               </div>
             </button>
 
@@ -446,7 +446,7 @@ export function TripPlanner() {
 
             <div className="mt-6 p-4 bg-gray-50 rounded-xl text-sm text-gray-500">
               <p className="font-medium text-gray-700 mb-1">💡 Driving?</p>
-              <p>No worries — skip this step and we'll still build your full itinerary with drive times between courses and hotel.</p>
+              <p>No worries — skip this step and we&apos;ll still build your full itinerary with drive times between courses and hotel.</p>
             </div>
           </div>
         )}

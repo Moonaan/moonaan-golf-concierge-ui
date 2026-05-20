@@ -101,7 +101,7 @@ export function CourseDetailPage() {
       <div className="page-container py-20 text-center">
         <Mountain className="w-16 h-16 mx-auto text-gray-300 mb-4" />
         <h2 className="text-2xl font-display font-bold text-gray-700 mb-2">Course Not Found</h2>
-        <p className="text-gray-500 mb-6">We couldn't find the course you're looking for.</p>
+        <p className="text-gray-500 mb-6">We couldn&apos;t find the course you&apos;re looking for.</p>
         <button onClick={() => navigate('/courses')} className="btn-primary">
           Browse All Courses
         </button>
@@ -230,7 +230,7 @@ export function CourseDetailPage() {
                     <span className="font-semibold">{course.yardage.championship.toLocaleString()}</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Men's:</span>{' '}
+                    <span className="text-gray-400">Men&apos;s:</span>{' '}
                     <span className="font-semibold">{course.yardage.mens.toLocaleString()}</span>
                   </div>
                   <div>

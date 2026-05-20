@@ -27,7 +27,9 @@ export class AudioPlayer {
     if (this.currentSource) {
       try {
         this.currentSource.stop();
-      } catch {}
+      } catch {
+        // best-effort cleanup; ignore stop errors
+      }
       this.currentSource = null;
     }
     this.setSpeaking(false);
