@@ -1,7 +1,6 @@
 import { createContext, useContext, useCallback } from 'react';
 import { useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import api from '../lib/api';
 import type { User } from '../lib/types';
 
 export interface AuthState {
@@ -44,8 +43,7 @@ export function useAuthProvider(): AuthState {
     try {
       const token = await SecureStore.getItemAsync('auth_token');
       if (token) {
-        const userData = await api.get<User>('/auth/me');
-        setUser(userData);
+        // TODO(MGC-16): rewire to Bedrock AgentCore auth backend
       }
     } catch {
       await SecureStore.deleteItemAsync('auth_token');
@@ -55,24 +53,16 @@ export function useAuthProvider(): AuthState {
     }
   };
 
-  const login = useCallback(async (email: string, password: string) => {
-    const response = await api.post('/auth/login', { email, password }, { skipAuth: true });
-    await SecureStore.setItemAsync('auth_token', response.accessToken);
-    await SecureStore.setItemAsync('refresh_token', response.refreshToken);
-    setUser(response.user);
+  const login = useCallback(async (_email: string, _password: string) => {
+    throw new Error('Not implemented');
   }, []);
 
-  const signup = useCallback(async (data: SignupData) => {
-    const response = await api.post('/auth/signup', data, { skipAuth: true });
-    await SecureStore.setItemAsync('auth_token', response.accessToken);
-    await SecureStore.setItemAsync('refresh_token', response.refreshToken);
-    setUser(response.user);
+  const signup = useCallback(async (_data: SignupData) => {
+    throw new Error('Not implemented');
   }, []);
 
   const logout = useCallback(async () => {
-    try {
-      await api.post('/auth/logout');
-    } catch {} // best-effort
+    // TODO(MGC-16): invalidate session server-side via Bedrock AgentCore auth backend
     await SecureStore.deleteItemAsync('auth_token');
     await SecureStore.deleteItemAsync('refresh_token');
     setUser(null);

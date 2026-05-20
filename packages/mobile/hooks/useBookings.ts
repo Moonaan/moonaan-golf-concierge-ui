@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../lib/api';
 import type { Booking } from '../lib/types';
 
 const CACHE_KEY = 'bookings_cache';
@@ -41,13 +40,7 @@ export function useBookings(): BookingsState {
 
   const fetchBookings = async () => {
     try {
-      const response = await api.get<{ upcoming: Booking[]; past: Booking[] }>('/bookings');
-      setUpcoming(response.upcoming);
-      setPast(response.past);
-      await AsyncStorage.setItem(
-        CACHE_KEY,
-        JSON.stringify({ upcoming: response.upcoming, past: response.past })
-      );
+      // TODO(MGC-16): rewire to Bedrock AgentCore bookings backend
     } catch {
       // Keep cached data
     } finally {
@@ -68,15 +61,7 @@ export function useBookings(): BookingsState {
     );
 
     try {
-      await api.delete(`/bookings/${bookingId}`);
-      // Move to past
-      setUpcoming((prev) => {
-        const cancelled = prev.find((b) => b.id === bookingId);
-        if (cancelled) {
-          setPast((pastPrev) => [{ ...cancelled, status: 'cancelled' as const }, ...pastPrev]);
-        }
-        return prev.filter((b) => b.id !== bookingId);
-      });
+      // TODO(MGC-16): rewire to Bedrock AgentCore bookings backend
     } catch {
       // Revert optimistic update
       await fetchBookings();

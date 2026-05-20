@@ -2,7 +2,6 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-constants';
 import { Platform } from 'react-native';
 import { router } from 'expo-router';
-import api from './api';
 
 // Configure how notifications appear when app is foregrounded
 Notifications.setNotificationHandler({
@@ -33,11 +32,7 @@ export async function registerForPushNotifications(): Promise<string | null> {
       projectId: Device.default.expoConfig?.extra?.eas?.projectId,
     });
 
-    // Register token with backend
-    await api.post('/notifications/register', {
-      token: tokenData.data,
-      platform: Platform.OS,
-    }).catch(() => {});
+    // TODO(MGC-16): register token with Bedrock AgentCore notifications backend
 
     // Android notification channel
     if (Platform.OS === 'android') {
