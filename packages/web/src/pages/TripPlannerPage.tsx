@@ -12,6 +12,7 @@ import { InterestingStops } from '@/components/InterestingStops';
 import { REGIONS } from '@/lib/constants';
 import { DEMO_MODE, mockOptimizeRoute } from '@/lib/mock-api';
 import { MOCK_TRIP_PLANS } from '@/lib/mock-data';
+import type { RoutePlanInput } from '@/lib/mock-data';
 
 const API_BASE = import.meta.env.VITE_API_ENDPOINT || '/api';
 
@@ -40,20 +41,59 @@ const PAST_TRIPS = [
 
 // ── Route View Types ──────────────────────────────────────
 
+interface LatLng {
+  latitude: number;
+  longitude: number;
+}
+
+interface RouteWaypoint {
+  order: number;
+  type: string;
+  name: string;
+  address: string;
+  location: LatLng;
+  arrivalTime?: string;
+  departureTime?: string;
+  teeTime?: string;
+  bufferMinutes?: number;
+  urgency: string;
+}
+
+interface RouteLeg {
+  order: number;
+  startName: string;
+  endName: string;
+  startLocation: LatLng;
+  endLocation: LatLng;
+  distanceMiles: number;
+  durationMinutes: number;
+  urgency: string;
+}
+
+interface InterestingStop {
+  placeId: string;
+  name: string;
+  address: string;
+  location: LatLng;
+  type: string;
+  types: string[];
+  rating?: number;
+}
+
 interface RouteData {
   route: {
     tripId: string;
-    orderedWaypoints: any[];
-    legs: any[];
+    orderedWaypoints: RouteWaypoint[];
+    legs: RouteLeg[];
     totalDistanceMeters: number;
     totalDistanceMiles: number;
     totalDurationMinutes: number;
     suggestedDepartureTime: string;
     overviewPolyline: string;
-    bounds: { northeast: any; southwest: any };
+    bounds: { northeast: LatLng; southwest: LatLng };
     warnings: string[];
   };
-  interestingStops: any[];
+  interestingStops: InterestingStop[];
   demoMode: boolean;
 }
 
@@ -65,12 +105,12 @@ export function TripPlannerPage() {
   const [optimizeError, setOptimizeError] = useState<string | null>(null);
   const [showStopsPanel, setShowStopsPanel] = useState(false);
 
-  const handleOptimizeRoute = useCallback(async (tripPlan: any) => {
+  const handleOptimizeRoute = useCallback(async (tripPlan: RoutePlanInput) => {
     setIsOptimizing(true);
     setOptimizeError(null);
 
     try {
-      let data: any;
+      let data: unknown;
       if (DEMO_MODE) {
         data = await mockOptimizeRoute(tripPlan);
       } else {
@@ -85,13 +125,13 @@ export function TripPlannerPage() {
           throw new Error(errBody.error?.message || 'Failed to optimize route');
         }
 
-        data = await response.json();
-        data = data.data || data;
+        const json = (await response.json()) as { data?: unknown };
+        data = json.data ?? json;
       }
-      setRouteData(data);
+      setRouteData(data as RouteData);
       setShowRouteView(true);
-    } catch (err: any) {
-      setOptimizeError(err.message);
+    } catch (err: unknown) {
+      setOptimizeError(err instanceof Error ? err.message : 'Failed to optimize route');
     } finally {
       setIsOptimizing(false);
     }
@@ -101,7 +141,7 @@ export function TripPlannerPage() {
     setShowStopsPanel(true);
   }, []);
 
-  const handleAddStopToTrip = useCallback((stop: any) => {
+  const handleAddStopToTrip = useCallback((stop: InterestingStop) => {
     // In a full implementation this would re-optimize the route with the new waypoint
     console.log('Adding stop to trip:', stop.name);
     setShowStopsPanel(false);
@@ -280,7 +320,7 @@ export function TripPlannerPage() {
                 onClick={() => {
                   handleOptimizeRoute({
                     startLocation: { address: 'Springfield, MO', name: 'Springfield' },
-                    courses: tmpl.tripPlan.courses.map((c: any) => ({
+                    courses: tmpl.tripPlan.courses.map((c) => ({
                       name: c.name,
                       address: `${c.name}, Missouri`,
                       teeTime: c.teeTime,

@@ -63,8 +63,8 @@ export function MyBookingsPage() {
       setCancelError(null);
       await cancelBooking(cancelModalBooking.bookingId);
       setCancelModalBooking(null);
-    } catch (err: any) {
-      setCancelError(err.message || 'Failed to cancel booking');
+    } catch (err: unknown) {
+      setCancelError((err instanceof Error ? err.message : '') || 'Failed to cancel booking');
     } finally {
       setIsCancelling(false);
     }

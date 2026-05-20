@@ -109,8 +109,8 @@ export function ProfilePage() {
       setIsEditing(false);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to save profile');
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : '') || 'Failed to save profile');
     } finally {
       setIsSaving(false);
     }

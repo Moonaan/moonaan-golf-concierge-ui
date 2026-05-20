@@ -841,8 +841,36 @@ export function generateWeather(courseId: string, _date?: string): WeatherData {
 
 // ── Mock Route Data ──────────────────────────────────────────
 
-export function generateRouteData(tripPlan: any) {
-  const waypoints = tripPlan.courses?.map((c: any, i: number) => ({
+interface RoutePlanLocation {
+  latitude: number;
+  longitude: number;
+}
+
+interface RoutePlanCourse {
+  name: string;
+  address?: string;
+  location?: RoutePlanLocation;
+  teeTime?: string;
+}
+
+export interface RoutePlanInput {
+  courses?: RoutePlanCourse[];
+  hotel?: { name?: string; address?: string };
+  startLocation?: { name?: string; address?: string; location?: RoutePlanLocation };
+}
+
+interface RouteWaypoint {
+  index: number;
+  name?: string;
+  address?: string;
+  location: RoutePlanLocation;
+  type: string;
+  teeTime?: string;
+  arrivalTime?: string;
+}
+
+export function generateRouteData(tripPlan: RoutePlanInput) {
+  const waypoints: RouteWaypoint[] = tripPlan.courses?.map((c: RoutePlanCourse, i: number) => ({
     index: i,
     name: c.name,
     address: c.address || `${c.name}, Missouri`,

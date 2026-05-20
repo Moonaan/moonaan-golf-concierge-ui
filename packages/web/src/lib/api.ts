@@ -266,8 +266,8 @@ export const mapsApi = {
     hotel?: { address?: string; name?: string };
     returnLocation?: { address?: string; name?: string };
   }) => request<{
-    route: any;
-    interestingStops: any[];
+    route: unknown;
+    interestingStops: unknown[];
     demoMode: boolean;
   }>('/maps/route', { method: 'POST', body: { tripPlan } }),
 
@@ -276,7 +276,7 @@ export const mapsApi = {
     destination: string;
     waypoints?: string[];
     mode?: string;
-  }) => request<{ directions: any; demoMode: boolean }>(
+  }) => request<{ directions: unknown; demoMode: boolean }>(
     '/maps/directions',
     { method: 'POST', body: params },
   ),
@@ -294,13 +294,13 @@ export const mapsApi = {
     if (params.radius) qs.set('radius', String(params.radius));
     if (params.type) qs.set('type', params.type);
     if (params.keyword) qs.set('keyword', params.keyword);
-    return request<{ places: any[]; count: number; demoMode: boolean }>(
+    return request<{ places: unknown[]; count: number; demoMode: boolean }>(
       `/maps/places/nearby?${qs}`,
     );
   },
 
   getPlaceDetails: (placeId: string) =>
-    request<{ place: any; demoMode: boolean }>(`/maps/places/${placeId}`),
+    request<{ place: unknown; demoMode: boolean }>(`/maps/places/${placeId}`),
 };
 
 export default {

@@ -11,11 +11,12 @@ import {
 import { SearchBar, type SearchParams } from '@/components/SearchBar';
 import { CourseCard } from '@/components/CourseCard';
 import { useCourses } from '@/hooks/useCourses';
+import type { Course } from '@/lib/api';
 import { MEMBERSHIP_TIERS, PHONE_NUMBER, PHONE_DISPLAY } from '@/lib/constants';
 import { formatCurrency } from '@/lib/format';
 
 // Featured courses (demo data)
-const FEATURED_COURSES = [
+const FEATURED_COURSES: Course[] = [
   {
     courseId: 'buffalo-ridge',
     name: 'Buffalo Ridge Springs',
@@ -398,7 +399,7 @@ export function HomePage() {
           >
             {displayCourses.map((course) => (
               <div key={course.courseId} className="flex-shrink-0 w-[300px] snap-start">
-                <CourseCard course={course as any} />
+                <CourseCard course={course} />
               </div>
             ))}
           </div>

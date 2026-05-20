@@ -10,6 +10,7 @@ import {
   generateWeather,
   generateRouteData,
 } from '@/lib/mock-data';
+import type { RoutePlanInput } from '@/lib/mock-data';
 import type { Course, TeeTime, Booking, WeatherData, UserProfile } from '@/lib/api';
 import type { ChatApiResponse } from '@/types/chat';
 import { generateConfirmationCode } from '@/lib/format';
@@ -301,7 +302,9 @@ export async function mockChat(message: string): Promise<ChatApiResponse> {
 
 // ── Route API ────────────────────────────────────────────────
 
-export async function mockOptimizeRoute(tripPlan: any): Promise<any> {
+export async function mockOptimizeRoute(
+  tripPlan: RoutePlanInput,
+): Promise<ReturnType<typeof generateRouteData>> {
   await delay(500);
   return generateRouteData(tripPlan);
 }
