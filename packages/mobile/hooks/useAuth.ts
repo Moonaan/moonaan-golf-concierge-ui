@@ -1,10 +1,11 @@
 import { createContext, useContext, useCallback } from 'react';
 import { useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import type { User } from '../lib/types';
+import { MemberTier } from '@golf-concierge/shared';
+import type { Member } from '@golf-concierge/shared';
 
 export interface AuthState {
-  user: User | null;
+  user: Member | null;
   isAuthenticated: boolean;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
@@ -32,7 +33,7 @@ export const AuthContext = createContext<AuthState>({
 });
 
 export function useAuthProvider(): AuthState {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Member | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -69,26 +70,25 @@ export function useAuthProvider(): AuthState {
   }, []);
 
   const continueAsGuest = useCallback(() => {
+    const now = new Date().toISOString();
     setUser({
-      id: 'guest',
+      memberId: 'guest',
+      firstName: 'Guest',
+      lastName: '',
       email: '',
-      name: 'Guest',
-      memberSince: new Date().toISOString(),
-      tier: 'guest',
-      preferences: {
-        pace: 'moderate',
-        cartOrWalk: 'no_preference',
-        notificationsEnabled: false,
-        weatherAlerts: true,
-        bookingReminders: true,
-      },
+      phone: '',
+      tier: MemberTier.FREE,
+      cognitoUserId: '',
+      createdAt: now,
+      updatedAt: now,
+      status: 'ACTIVE',
     });
     setLoading(false);
   }, []);
 
   return {
     user,
-    isAuthenticated: !!user && user.id !== 'guest',
+    isAuthenticated: !!user && user.memberId !== 'guest',
     loading,
     login,
     signup,

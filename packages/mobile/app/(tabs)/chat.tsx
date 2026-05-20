@@ -14,7 +14,7 @@ import ChatMessage from '../../components/chat/ChatMessage';
 import ChatInput from '../../components/chat/ChatInput';
 import QuickReplies from '../../components/chat/QuickReplies';
 import { colors, spacing, fontSize } from '../../lib/theme';
-import type { ChatMessage as ChatMessageType } from '../../lib/types';
+import type { ChatMessage as ChatMessageType } from '@golf-concierge/shared';
 
 export default function ChatScreen() {
   const { messages, isTyping, quickReplies, sendMessage, sendVoice, loadOlderMessages } =

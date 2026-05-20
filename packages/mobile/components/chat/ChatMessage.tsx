@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, borderRadius, fontSize } from '../../lib/theme';
-import type { ChatMessage as ChatMessageType } from '../../lib/types';
+import type { ChatMessage as ChatMessageType, ChatCard } from '@golf-concierge/shared';
 import CourseOptionCard from '../cards/CourseOptionCard';
 import TripItineraryCard from '../cards/TripItineraryCard';
 import BookingConfirmationCard from '../cards/BookingConfirmationCard';
@@ -24,7 +24,7 @@ export default function ChatMessage({ message, onSendMessage }: Props) {
     return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   };
 
-  const renderCard = (card: any, index: number) => {
+  const renderCard = (card: ChatCard, index: number) => {
     switch (card.type) {
       case 'course_option':
         return <CourseOptionCard key={index} data={card} onBook={onSendMessage} />;
@@ -32,7 +32,7 @@ export default function ChatMessage({ message, onSendMessage }: Props) {
         return <TripItineraryCard key={index} data={card} onBook={onSendMessage} />;
       case 'booking_confirmation':
         return <BookingConfirmationCard key={index} data={card} />;
-      case 'hotel':
+      case 'hotel_option':
         return <HotelCard key={index} data={card} onBook={onSendMessage} />;
       case 'weather_alert':
         return <WeatherAlertCard key={index} data={card} onAction={onSendMessage} />;

@@ -3,13 +3,13 @@
 // ============================================================
 
 import { CheckCircle2, Calendar, Share2, ShoppingCart, Footprints } from 'lucide-react';
-import type { BookingConfirmation } from '@/types/chat';
+import type { BookingConfirmationCard as BookingConfirmationCardType } from '@golf-concierge/shared';
 
 interface BookingConfirmationCardProps {
-  booking: BookingConfirmation;
+  booking: BookingConfirmationCardType;
 }
 
-function generateICS(booking: BookingConfirmation): string {
+function generateICS(booking: BookingConfirmationCardType): string {
   // Simple ICS generation
   const dateStr = booking.date.replace(/[^0-9]/g, '');
   const now = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
@@ -21,7 +21,7 @@ function generateICS(booking: BookingConfirmation): string {
     'BEGIN:VEVENT',
     `DTSTART:${dateStr}`,
     `SUMMARY:Golf - ${booking.courseName}`,
-    `DESCRIPTION:Tee Time: ${booking.time}\\nPlayers: ${booking.players}\\nConfirmation: ${booking.confirmationCode}`,
+    `DESCRIPTION:Tee Time: ${booking.teeTime}\\nPlayers: ${booking.players}\\nConfirmation: ${booking.confirmationCode}`,
     `LOCATION:${booking.courseName}`,
     `DTSTAMP:${now}`,
     `UID:${booking.bookingId}@mogolftrail.com`,
@@ -30,7 +30,7 @@ function generateICS(booking: BookingConfirmation): string {
   ].join('\r\n');
 }
 
-function downloadICS(booking: BookingConfirmation) {
+function downloadICS(booking: BookingConfirmationCardType) {
   const ics = generateICS(booking);
   const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -41,11 +41,11 @@ function downloadICS(booking: BookingConfirmation) {
   URL.revokeObjectURL(url);
 }
 
-function shareBooking(booking: BookingConfirmation) {
+function shareBooking(booking: BookingConfirmationCardType) {
   const text = [
     `⛳ Golf Booking Confirmed!`,
     `📍 ${booking.courseName}`,
-    `📅 ${booking.date} at ${booking.time}`,
+    `📅 ${booking.date} at ${booking.teeTime}`,
     `👥 ${booking.players} players`,
     `🎫 Confirmation: ${booking.confirmationCode}`,
     `💰 Total: $${booking.totalCharged}`,
@@ -74,7 +74,7 @@ export function BookingConfirmationCard({ booking }: BookingConfirmationCardProp
         <div>
           <h3 className="font-semibold text-gray-900">{booking.courseName}</h3>
           <p className="text-sm text-gray-600 mt-0.5">
-            {booking.date} at {booking.time}
+            {booking.date} at {booking.teeTime}
           </p>
         </div>
 

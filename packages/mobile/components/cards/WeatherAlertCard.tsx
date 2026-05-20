@@ -4,7 +4,7 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, borderRadius, fontSize } from '../../lib/theme';
-import type { WeatherAlertCard as WeatherData } from '../../lib/types';
+import type { WeatherAlertCard as WeatherData } from '@golf-concierge/shared';
 
 interface Props {
   data: WeatherData;
@@ -27,7 +27,7 @@ export default function WeatherAlertCard({ data, onAction }: Props) {
       <View style={styles.weatherRow}>
         <View style={styles.weatherIcon}>
           <Ionicons
-            name={WEATHER_ICONS[data.icon] || 'cloud'}
+            name={(data.icon && WEATHER_ICONS[data.icon]) || 'cloud'}
             size={28}
             color={colors.warning}
           />
@@ -38,7 +38,7 @@ export default function WeatherAlertCard({ data, onAction }: Props) {
         </View>
         <View style={styles.rainBadge}>
           <Ionicons name="water" size={14} color={colors.warning} />
-          <Text style={styles.rainText}>{data.rainChance}%</Text>
+          <Text style={styles.rainText}>{data.precipitation}%</Text>
         </View>
       </View>
 

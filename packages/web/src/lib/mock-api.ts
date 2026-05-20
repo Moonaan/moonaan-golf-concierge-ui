@@ -12,7 +12,7 @@ import {
 } from '@/lib/mock-data';
 import type { RoutePlanInput } from '@/lib/mock-data';
 import type { Course, TeeTime, Booking, WeatherData, UserProfile } from '@/lib/api';
-import type { ChatApiResponse } from '@/types/chat';
+import type { ChatApiResponse } from '@golf-concierge/shared';
 import { generateConfirmationCode } from '@/lib/format';
 
 // Demo mode: true when no API URL is configured
@@ -164,41 +164,41 @@ export async function mockChat(message: string): Promise<ChatApiResponse> {
   if (lower.includes('tee time') || lower.includes('book') || lower.includes('play')) {
     return {
       response: "I found some great options for you! Here are the best available tee times:",
-      richContent: {
-        type: 'course_options',
-        courses: [
-          {
-            courseId: 'top-of-the-rock',
-            name: 'Top of the Rock',
-            time: '9:20 AM',
-            date: 'Saturday',
-            price: 135,
-            rating: 4.8,
-            highlight: 'Jack Nicklaus design — lake views',
-            cartIncluded: true,
-          },
-          {
-            courseId: 'branson-hills',
-            name: 'Branson Hills Golf Club',
-            time: '8:48 AM',
-            date: 'Saturday',
-            price: 75,
-            rating: 4.5,
-            highlight: 'Best value in Branson',
-            cartIncluded: true,
-          },
-          {
-            courseId: 'old-kinderhook',
-            name: 'Old Kinderhook',
-            time: '10:00 AM',
-            date: 'Saturday',
-            price: 99,
-            rating: 4.6,
-            highlight: 'Tom Weiskopf gem at the lake',
-            cartIncluded: true,
-          },
-        ],
-      },
+      cards: [
+        {
+          type: 'course_option',
+          courseId: 'top-of-the-rock',
+          courseName: 'Top of the Rock',
+          teeTime: '9:20 AM',
+          date: 'Saturday',
+          price: 135,
+          userRating: 4.8,
+          highlight: 'Jack Nicklaus design — lake views',
+          cartIncluded: true,
+        },
+        {
+          type: 'course_option',
+          courseId: 'branson-hills',
+          courseName: 'Branson Hills Golf Club',
+          teeTime: '8:48 AM',
+          date: 'Saturday',
+          price: 75,
+          userRating: 4.5,
+          highlight: 'Best value in Branson',
+          cartIncluded: true,
+        },
+        {
+          type: 'course_option',
+          courseId: 'old-kinderhook',
+          courseName: 'Old Kinderhook',
+          teeTime: '10:00 AM',
+          date: 'Saturday',
+          price: 99,
+          userRating: 4.6,
+          highlight: 'Tom Weiskopf gem at the lake',
+          cartIncluded: true,
+        },
+      ],
       quickReplies: ['Book the first one', 'Show me Sunday times', 'Different area'],
     };
   }
@@ -206,10 +206,10 @@ export async function mockChat(message: string): Promise<ChatApiResponse> {
   if (lower.includes('trip') || lower.includes('plan') || lower.includes('weekend')) {
     return {
       response: "Here's a killer golf trip I put together for you:",
-      richContent: {
-        type: 'trip_itinerary',
-        trip: {
-          title: 'Ozarks Golf Weekend',
+      cards: [
+        {
+          type: 'trip_itinerary',
+          tripName: 'Ozarks Golf Weekend',
           startDate: '2026-04-10',
           endDate: '2026-04-12',
           hotel: {
@@ -225,7 +225,7 @@ export async function mockChat(message: string): Promise<ChatApiResponse> {
           totalPerPerson: 899,
           players: 4,
         },
-      },
+      ],
       quickReplies: ['Book it all', 'Change a course', 'Different hotel', 'Add another round'],
     };
   }
@@ -240,20 +240,20 @@ export async function mockChat(message: string): Promise<ChatApiResponse> {
   if (lower.includes('yes') || lower.includes('book it') || lower.includes('book the') || lower.includes("let's do")) {
     return {
       response: "Booked! You're all set. Here's your confirmation:",
-      richContent: {
-        type: 'booking_confirmation',
-        booking: {
+      cards: [
+        {
+          type: 'booking_confirmation',
           bookingId: `BK-${Date.now()}`,
           courseName: 'Top of the Rock',
           date: 'Saturday',
-          time: '9:20 AM',
+          teeTime: '9:20 AM',
           players: 2,
           holes: 18,
           totalCharged: 270,
           confirmationCode: generateConfirmationCode(),
           cartIncluded: true,
         },
-      },
+      ],
       quickReplies: ['Add another round', 'Book a hotel nearby', "That's all, thanks!"],
     };
   }
@@ -261,14 +261,11 @@ export async function mockChat(message: string): Promise<ChatApiResponse> {
   if (lower.includes('hotel') || lower.includes('stay') || lower.includes('lodge')) {
     return {
       response: "Here are the best hotels near the course:",
-      richContent: {
-        type: 'hotel_options',
-        hotels: [
-          { hotelId: 'chateau', name: 'Chateau on the Lake', pricePerNight: 159, distanceToCourse: '10 min drive', rating: 4.6, amenities: ['Pool', 'Spa', 'Lake View', 'Restaurant'] },
-          { hotelId: 'big-cedar', name: 'Big Cedar Lodge', pricePerNight: 189, distanceToCourse: '5 min drive', rating: 4.8, amenities: ['Pool', 'Spa', 'Golf Shuttle', 'Restaurant'] },
-          { hotelId: 'hilton-branson', name: 'Hilton Branson Convention Center', pricePerNight: 129, distanceToCourse: '20 min drive', rating: 4.3, amenities: ['Pool', 'Fitness Center', 'Downtown Location'] },
-        ],
-      },
+      cards: [
+        { type: 'hotel_option', hotelId: 'chateau', name: 'Chateau on the Lake', pricePerNight: 159, distanceToCourse: '10 min drive', rating: 4.6, amenities: ['Pool', 'Spa', 'Lake View', 'Restaurant'] },
+        { type: 'hotel_option', hotelId: 'big-cedar', name: 'Big Cedar Lodge', pricePerNight: 189, distanceToCourse: '5 min drive', rating: 4.8, amenities: ['Pool', 'Spa', 'Golf Shuttle', 'Restaurant'] },
+        { type: 'hotel_option', hotelId: 'hilton-branson', name: 'Hilton Branson Convention Center', pricePerNight: 129, distanceToCourse: '20 min drive', rating: 4.3, amenities: ['Pool', 'Fitness Center', 'Downtown Location'] },
+      ],
       quickReplies: ['Book Chateau on the Lake', 'Cheaper options', 'I have a place'],
     };
   }

@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, borderRadius, fontSize } from '../../lib/theme';
-import type { CourseOptionCard as CourseOptionData } from '../../lib/types';
+import type { CourseOptionCard as CourseOptionData } from '@golf-concierge/shared';
 
 interface Props {
   data: CourseOptionData;
@@ -52,11 +52,11 @@ export default function CourseOptionCard({ data, onBook }: Props) {
           <View style={styles.header}>
             <View style={styles.headerLeft}>
               <Text style={styles.courseName}>{data.courseName}</Text>
-              <View style={styles.stars}>{renderStars(data.rating)}</View>
+              <View style={styles.stars}>{renderStars(data.userRating ?? 0)}</View>
             </View>
             <View style={styles.priceTag}>
               <Text style={styles.price}>${data.price}</Text>
-              <Text style={styles.holes}>{data.holes}H</Text>
+              {data.holes != null && <Text style={styles.holes}>{data.holes}H</Text>}
             </View>
           </View>
 
@@ -78,7 +78,7 @@ export default function CourseOptionCard({ data, onBook }: Props) {
           {expanded && (
             <Animated.View entering={FadeIn.duration(200)} style={styles.expandedContent}>
               <Text style={styles.expandedText}>
-                {data.holes} holes • Rated {data.rating}/5 •{' '}
+                {data.holes} holes • Rated {data.userRating ?? 0}/5 •{' '}
                 {data.cartIncluded ? 'Cart included' : 'Walking only'}
               </Text>
             </Animated.View>

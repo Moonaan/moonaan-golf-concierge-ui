@@ -4,7 +4,7 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, borderRadius, fontSize } from '../../lib/theme';
-import type { HotelCard as HotelData } from '../../lib/types';
+import type { HotelOptionCard as HotelData } from '@golf-concierge/shared';
 
 interface Props {
   data: HotelData;

@@ -4,7 +4,7 @@
 // ============================================================
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { ChatMessage, ChatApiResponse } from '@/types/chat';
+import type { ChatMessage, ChatApiResponse } from '@golf-concierge/shared';
 import { DEMO_MODE, mockChat } from '@/lib/mock-api';
 import { DEMO_CHAT_HISTORY } from '@/lib/mock-data';
 
@@ -122,7 +122,7 @@ export function useChat() {
           role: 'assistant',
           content: data.response,
           timestamp: new Date().toISOString(),
-          richContent: data.richContent,
+          cards: data.cards,
           quickReplies: data.quickReplies,
         };
 

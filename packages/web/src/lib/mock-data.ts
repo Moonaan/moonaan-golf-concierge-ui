@@ -3,7 +3,7 @@
 // ============================================================
 
 import type { Course, TeeTime, Booking, WeatherData, UserProfile } from '@/lib/api';
-import type { ChatMessage } from '@/types/chat';
+import type { ChatMessage } from '@golf-concierge/shared';
 
 // ── 20 Missouri Courses ─────────────────────────────────────
 
@@ -628,41 +628,41 @@ export const DEMO_CHAT_HISTORY: ChatMessage[] = [
     role: 'assistant',
     content: "Great choice! Branson has some of the best golf in Missouri. Here are 3 options for this Saturday:",
     timestamp: new Date(Date.now() - 480000).toISOString(),
-    richContent: {
-      type: 'course_options',
-      courses: [
-        {
-          courseId: 'top-of-the-rock',
-          name: 'Top of the Rock',
-          time: '9:20 AM',
-          date: 'Saturday',
-          price: 135,
-          rating: 4.8,
-          highlight: 'Jack Nicklaus design — stunning lake views',
-          cartIncluded: true,
-        },
-        {
-          courseId: 'branson-hills',
-          name: 'Branson Hills Golf Club',
-          time: '8:48 AM',
-          date: 'Saturday',
-          price: 75,
-          rating: 4.5,
-          highlight: 'Best value in Branson — mountain views',
-          cartIncluded: true,
-        },
-        {
-          courseId: 'thousand-hills',
-          name: 'Thousand Hills Golf Resort',
-          time: '10:08 AM',
-          date: 'Saturday',
-          price: 59,
-          rating: 4.2,
-          highlight: 'Resort course — great for a casual round',
-          cartIncluded: true,
-        },
-      ],
-    },
+    cards: [
+      {
+        type: 'course_option',
+        courseId: 'top-of-the-rock',
+        courseName: 'Top of the Rock',
+        teeTime: '9:20 AM',
+        date: 'Saturday',
+        price: 135,
+        userRating: 4.8,
+        highlight: 'Jack Nicklaus design — stunning lake views',
+        cartIncluded: true,
+      },
+      {
+        type: 'course_option',
+        courseId: 'branson-hills',
+        courseName: 'Branson Hills Golf Club',
+        teeTime: '8:48 AM',
+        date: 'Saturday',
+        price: 75,
+        userRating: 4.5,
+        highlight: 'Best value in Branson — mountain views',
+        cartIncluded: true,
+      },
+      {
+        type: 'course_option',
+        courseId: 'thousand-hills',
+        courseName: 'Thousand Hills Golf Resort',
+        teeTime: '10:08 AM',
+        date: 'Saturday',
+        price: 59,
+        userRating: 4.2,
+        highlight: 'Resort course — great for a casual round',
+        cartIncluded: true,
+      },
+    ],
     quickReplies: ['Book the 9:20 at Top of the Rock for 2', 'Show me Sunday times', 'Different area'],
   },
   {
@@ -676,20 +676,20 @@ export const DEMO_CHAT_HISTORY: ChatMessage[] = [
     role: 'assistant',
     content: "Perfect! I've got your tee time locked in. Here are the details:",
     timestamp: new Date(Date.now() - 360000).toISOString(),
-    richContent: {
-      type: 'booking_confirmation',
-      booking: {
+    cards: [
+      {
+        type: 'booking_confirmation',
         bookingId: 'BK-DEMO-001',
         courseName: 'Top of the Rock',
         date: 'Saturday',
-        time: '9:20 AM',
+        teeTime: '9:20 AM',
         players: 2,
         holes: 18,
         totalCharged: 270,
         confirmationCode: 'MGT-TR9K2P',
         cartIncluded: true,
       },
-    },
+    ],
     quickReplies: ['Cart please', 'Walking', 'Any good BBQ nearby?'],
   },
   {

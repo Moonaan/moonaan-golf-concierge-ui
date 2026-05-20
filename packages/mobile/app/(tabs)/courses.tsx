@@ -16,9 +16,20 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { colors, spacing, borderRadius, fontSize, shadows } from '../../lib/theme';
 import { useChat } from '../../hooks/useChat';
-import type { Course } from '../../lib/types';
+import { MissouriRegion } from '@golf-concierge/shared';
+import type { Course } from '@golf-concierge/shared';
 
 const REGIONS = ['All', 'Branson', 'Lake of Ozarks', 'KC', 'STL'] as const;
+
+// Display labels are friendlier than the raw MissouriRegion enum values,
+// so map each chip label to the enum value used by Course.region.
+const REGION_MAP: Record<(typeof REGIONS)[number], MissouriRegion | 'All'> = {
+  All: 'All',
+  Branson: MissouriRegion.BRANSON,
+  'Lake of Ozarks': MissouriRegion.LAKE_OF_THE_OZARKS,
+  KC: MissouriRegion.KANSAS_CITY,
+  STL: MissouriRegion.ST_LOUIS,
+};
 
 export default function CoursesScreen() {
   const router = useRouter();
@@ -27,7 +38,7 @@ export default function CoursesScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState<string>('All');
+  const [selectedRegion, setSelectedRegion] = useState<(typeof REGIONS)[number]>('All');
 
   useEffect(() => {
     fetchCourses();
@@ -53,7 +64,7 @@ export default function CoursesScreen() {
     const matchesSearch =
       !search || c.name.toLowerCase().includes(search.toLowerCase());
     const matchesRegion =
-      selectedRegion === 'All' || c.region === selectedRegion;
+      selectedRegion === 'All' || c.region === REGION_MAP[selectedRegion];
     return matchesSearch && matchesRegion;
   });
 
@@ -93,8 +104,8 @@ export default function CoursesScreen() {
       </View>
 
       <View style={styles.courseDetails}>
-        <View style={styles.starsRow}>{renderStars(item.rating)}</View>
-        <Text style={styles.priceRange}>{item.priceRange}</Text>
+        <View style={styles.starsRow}>{renderStars(item.userRating ?? 0)}</View>
+        <Text style={styles.priceRange}>{item.priceDisplay ?? ''}</Text>
       </View>
 
       {item.nextAvailableTeeTime && (
@@ -195,7 +206,7 @@ export default function CoursesScreen() {
       ) : (
         <FlatList
           data={filtered}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.courseId}
           renderItem={renderCourse}
           ListEmptyComponent={renderEmpty}
           contentContainerStyle={styles.listContent}

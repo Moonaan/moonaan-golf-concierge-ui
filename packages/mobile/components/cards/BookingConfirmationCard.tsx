@@ -11,7 +11,7 @@ import * as Calendar from 'expo-calendar';
 import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, spacing, borderRadius, fontSize } from '../../lib/theme';
-import type { BookingConfirmationCard as ConfirmationData } from '../../lib/types';
+import type { BookingConfirmationCard as ConfirmationData } from '@golf-concierge/shared';
 
 interface Props {
   data: ConfirmationData;
@@ -75,6 +75,7 @@ export default function BookingConfirmationCard({ data }: Props) {
   };
 
   const handleDirections = () => {
+    if (!data.courseAddress) return;
     const address = encodeURIComponent(data.courseAddress);
     const url = Platform.select({
       ios: `maps://app?daddr=${address}`,

@@ -32,6 +32,8 @@ export interface Booking {
   cancelledAt?: ISODateTimeString;
   cancellationReason?: string;
   source: 'VOICE' | 'WEB' | 'API';
+  courseAddress?: string;  // denormalized from Course for display
+  coursePhone?: string;    // denormalized from Course for display
 }
 
 export interface BookingPlayer {
