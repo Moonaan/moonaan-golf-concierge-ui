@@ -16,7 +16,6 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { colors, spacing, borderRadius, fontSize, shadows } from '../../lib/theme';
 import { useChat } from '../../hooks/useChat';
-import api from '../../lib/api';
 import type { Course } from '../../lib/types';
 
 const REGIONS = ['All', 'Branson', 'Lake of Ozarks', 'KC', 'STL'] as const;
@@ -36,8 +35,7 @@ export default function CoursesScreen() {
 
   const fetchCourses = async () => {
     try {
-      const data = await api.get<{ courses: Course[] }>('/courses');
-      setCourses(data.courses);
+      // TODO(MGC-16): rewire to Bedrock AgentCore courses backend
     } catch {
       // Keep existing data
     } finally {

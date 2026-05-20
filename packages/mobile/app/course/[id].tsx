@@ -13,7 +13,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useChat } from '../../hooks/useChat';
-import api from '../../lib/api';
 import { colors, spacing, borderRadius, fontSize } from '../../lib/theme';
 import type { Course } from '../../lib/types';
 
@@ -41,9 +40,8 @@ export default function CourseDetailScreen() {
 
   const fetchCourse = async () => {
     try {
-      const data = await api.get<Course>(`/courses/${id}`);
-      setCourse(data);
-    } catch {} finally {
+      // TODO(MGC-16): rewire to Bedrock AgentCore courses backend
+    } finally {
       setLoading(false);
     }
   };

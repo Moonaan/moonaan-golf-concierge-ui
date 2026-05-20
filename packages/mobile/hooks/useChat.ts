@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../lib/api';
 import type { ChatMessage } from '../lib/types';
 
 const CACHE_KEY = 'chat_messages';
@@ -99,24 +98,9 @@ export function useChatProvider(): ChatState {
     setIsTyping(true);
 
     try {
-      const response = await api.post<{
-        message: ChatMessage;
-        quickReplies?: string[];
-      }>('/chat', { message: content });
-
-      const assistantMessage: ChatMessage = {
-        ...response.message,
-        id: response.message.id || `ai_${Date.now()}`,
-        timestamp: response.message.timestamp || new Date().toISOString(),
-      };
-
-      setMessages((prev) => [assistantMessage, ...prev]);
-
-      if (response.quickReplies?.length) {
-        setQuickReplies(response.quickReplies);
-        assistantMessage.quickReplies = response.quickReplies;
-      }
-    } catch (error) {
+      // TODO(MGC-16): rewire to Bedrock AgentCore chat backend
+      throw new Error('Not implemented');
+    } catch {
       const errorMessage: ChatMessage = {
         id: `error_${Date.now()}`,
         role: 'assistant',
@@ -132,27 +116,11 @@ export function useChatProvider(): ChatState {
     }
   }, []);
 
-  const sendVoice = useCallback(async (audioUri: string) => {
+  const sendVoice = useCallback(async (_audioUri: string) => {
     setIsTyping(true);
     try {
-      // Upload audio for transcription
-      const formData = new FormData();
-      formData.append('audio', {
-        uri: audioUri,
-        type: 'audio/m4a',
-        name: 'voice.m4a',
-      } as any);
-
-      const transcription = await api.request<{ text: string }>('/chat/transcribe', {
-        method: 'POST',
-        body: formData,
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      if (transcription.text) {
-        setIsTyping(false);
-        await sendMessage(transcription.text);
-      }
+      // TODO(MGC-16): rewire to Bedrock AgentCore transcription backend
+      throw new Error('Not implemented');
     } catch {
       setIsTyping(false);
       const errorMessage: ChatMessage = {
@@ -169,18 +137,8 @@ export function useChatProvider(): ChatState {
     if (!hasMore.current) return false;
     pageRef.current += 1;
 
-    try {
-      const response = await api.get<{ messages: ChatMessage[]; hasMore: boolean }>(
-        `/chat/history?page=${pageRef.current}`
-      );
-      if (response.messages.length) {
-        setMessages((prev) => [...prev, ...response.messages]);
-      }
-      hasMore.current = response.hasMore;
-      return response.hasMore;
-    } catch {
-      return false;
-    }
+    // TODO(MGC-16): rewire to Bedrock AgentCore chat history backend
+    return false;
   }, []);
 
   const clearChat = useCallback(() => {
